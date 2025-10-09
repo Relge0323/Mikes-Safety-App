@@ -1,11 +1,55 @@
 {% extends 'layout.html' %}
 
-{% block title%}
+{% block title %}
     Home
 {% endblock %}
 
+{% block content %}
+<section class="mt-4">
+    <div class="container">
 
-{% block content%}
-    <h1>Home</h1>
-    <p>under construction</p>
+        <h1 class="text-primary mb-4">Welcome to the Safety Tracker App</h1>
+
+        <div class="row g-3 mb-4">
+            <!-- Total Incidents Card -->
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Incidents</h5>
+                        <p class="display-5 fw-bold">{{ total_incidents }}</p>
+                        <a href="{% url 'incident:list' %}" class="btn btn-primary">View All</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest Incident Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Latest Incident</h5>
+                        {% if latest_incident %}
+                            <p class="mb-2"><strong>{{ latest_incident.title }}</strong></p>
+                            <p class="text-muted mb-3">{{ latest_incident.date }} by {{ latest_incident.reporter }}</p>
+                            <a href="{% url 'incident:page' slug=latest_incident.slug %}" class="btn btn-primary btn-sm">View</a>
+                        {% else %}
+                            <p class="text-muted">No incidents yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Report Card -->
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Report a New Incident</h5>
+                        <p class="card-text">Quickly log a new workplace incident.</p>
+                        <a href="{% url 'incident:new-incident' %}" class="btn btn-primary">Report Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
 {% endblock %}

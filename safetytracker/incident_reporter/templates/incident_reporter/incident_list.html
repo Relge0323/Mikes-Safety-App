@@ -1,24 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Incident
+    Incidents
 {% endblock %}
 
 {% block content %}
-    <section>
-        <h1>Incidents</h1>
+<section>
+    <h1 class="mb-4">Incidents</h1>
 
-        {% for i in incident %}
-            <article>
-                <h2>
-                    <a href="{% url 'incident:page' slug=i.slug %}">
-                    {{ i.title }}
+    {% for i in incident %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'incident:page' slug=i.slug %}" class="text-primary text-decoration-none">
+                        {{ i.title }}
                     </a>
-                </h2>
-                <p>{{ i.date }} by {{ i.reporter }}</p>
-                <p>{{  i.body }}</p>
-            </article>
-        {% endfor %}
-    </section>
-    
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ i.date }} by {{ i.reporter }}</h6>
+                <p class="card-text">{{ i.body }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No incidents reported yet.</p>
+    {% endfor %}
+</section>
 {% endblock %}

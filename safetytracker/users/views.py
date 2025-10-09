@@ -3,6 +3,21 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 
 def register(request):
+    """
+    Handle new user registration.
+
+    If the request is POST, the submitted UserCreationForm is validated and a new
+    user is created. Upon successful registration, the user is automatically logged in
+    and redirected to the incident list. For GET requests, an empty registration form
+    is displayed.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered 'users/register.html' template with the registration form,
+                      or a redirect to the incident list after successful registration.
+    """
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -14,6 +29,20 @@ def register(request):
 
 
 def login_view(request):
+    """
+    Handle user login.
+
+    If the request is POST, the submitted AuthenticationForm is validated. On successful
+    authentication, the user is logged in and redirected to the page specified in 'next'
+    (if provided) or to the incident list. For GET requests, an empty login form is displayed.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered 'users/login.html' template with the login form,
+                      or a redirect after successful login.
+    """
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -28,6 +57,18 @@ def login_view(request):
 
 
 def logout_view(request):
+    """
+    Log out the currently authenticated user.
+
+    Only responds to POST requests. After logging out, the user is redirected to the
+    incident list page.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Redirect to the incident list after logout.
+    """
     if request.method == 'POST':
         logout(request)
         return redirect('incident:list')

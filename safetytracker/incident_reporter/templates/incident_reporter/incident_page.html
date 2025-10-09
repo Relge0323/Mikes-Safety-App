@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <section>
-        <img src="{{ incident.banner.url }}" alt="{{ incident.title }}"/>
-        <h1>{{ incident.title }}</h1>
-        <p>{{ incident.date }}</p>
-        <p>{{  incident.body }}</p>
-    </section>
-    
+<section class="mb-4">
+    {% if incident.banner %}
+        <img src="{{ incident.banner.url }}" alt="{{ incident.title }}" class="img-fluid mb-3 rounded">
+    {% endif %}
+    <h1 class="mb-2">{{ incident.title }}</h1>
+    <p class="text-muted">{{ incident.date }} by {{ incident.reporter }}</p>
+    <p>{{ incident.body }}</p>
+</section>
+<a href="{% url 'incident:list' %}" class="btn btn-secondary mt-2">Back to Incidents</a>
 {% endblock %}

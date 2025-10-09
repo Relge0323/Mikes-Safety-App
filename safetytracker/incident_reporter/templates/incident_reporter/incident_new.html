@@ -5,12 +5,24 @@
 {% endblock %}
 
 {% block content %}
-    <section>
-        <h1>New Incident</h1>
-        <form action="{% url 'incident:new-incident' %}" method='post' enctype='multipart/form-data'>
-            {% csrf_token %}
-            {{ form }}
-            <button>Add Incident</button>
-        </form>
-    </section>
+<section>
+    <h1 class="mb-4">Report a New Incident</h1>
+    <form action="{% url 'incident:new-incident' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Add Incident</button>
+        <a href="{% url 'incident:list' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</section>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ incident.title }}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <img src="{{ incident.banner.url }}" alt="{{ incident.title }}"/>
+        <h1>{{ incident.title }}</h1>
+        <p>{{ incident.date }}</p>
+        <p>{{  incident.body }}</p>
+    </section>
+    
+{% endblock %}

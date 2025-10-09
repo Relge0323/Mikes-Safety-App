@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    New Incident
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>New Incident</h1>
+        <form action="{% url 'incident:new-incident' %}" method='post' enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ form }}
+            <button>Add Incident</button>
+        </form>
+    </section>
+{% endblock %}

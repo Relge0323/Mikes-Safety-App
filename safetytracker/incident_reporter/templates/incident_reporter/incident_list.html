@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Incident
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>Incidents</h1>
+
+        {% for i in incident %}
+            <article>
+                <h2>
+                    <a href="{% url 'incident:page' slug=i.slug %}">
+                    {{ i.title }}
+                    </a>
+                </h2>
+                <p>{{ i.date }} by {{ i.reporter }}</p>
+                <p>{{  i.body }}</p>
+            </article>
+        {% endfor %}
+    </section>
+    
+{% endblock %}

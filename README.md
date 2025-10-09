@@ -5,6 +5,8 @@ an incident reporting application
 superuser = mike, pokergod
 
 
+************************need to pip install pillow***********************************
+
 # Sources
 --------------DJANGO RELATED----------------
 Django Unleashed Textbook

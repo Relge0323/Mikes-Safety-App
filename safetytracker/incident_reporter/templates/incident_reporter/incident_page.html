@@ -9,8 +9,28 @@
     {% if incident.banner %}
         <img src="{{ incident.banner.url }}" alt="{{ incident.title }}" class="img-fluid mb-3 rounded">
     {% endif %}
-    <h1 class="mb-2">{{ incident.title }}</h1>
-    <p class="text-muted">{{ incident.date }} by {{ incident.reporter }}</p>
+    
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h1 class="mb-2">{{ incident.title }}</h1>
+            <p class="text-muted mb-1">{{ incident.date|date:"M d, Y" }} by {{ incident.reporter.username }}</p>
+            <span class="badge 
+                {% if incident.status == 'new' %}bg-warning
+                {% elif incident.status == 'in_progress' %}bg-info
+                {% elif incident.status == 'resolved' %}bg-success
+                {% elif incident.status == 'closed' %}bg-secondary
+                {% endif %}">
+                {{ incident.get_status_display }}
+            </span>
+            {% if incident.assigned_to %}
+                <p class="mt-2 mb-0"><small>Assigned to: {{ incident.assigned_to.username }}</small></p>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated and user.profile.is_manager %}
+            <a href="{% url 'incident:update-status' slug=incident.slug %}" class="btn btn-primary">Update Status</a>
+        {% endif %}
+    </div>
+    
     <p>{{ incident.body }}</p>
 </section>
 <a href="{% url 'incident:list' %}" class="btn btn-secondary mt-2">Back to Incidents</a>

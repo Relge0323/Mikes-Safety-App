@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Manager Dashboard
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1 class="mb-4">Manager Dashboard</h1>
+    
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Total</h6>
+                    <p class="display-6 fw-bold">{{ stats.total }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm border-warning">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">New</h6>
+                    <p class="display-6 fw-bold text-warning">{{ stats.new }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm border-info">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">In Progress</h6>
+                    <p class="display-6 fw-bold text-info">{{ stats.in_progress }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm border-success">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Resolved</h6>
+                    <p class="display-6 fw-bold text-success">{{ stats.resolved }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm border-secondary">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Closed</h6>
+                    <p class="display-6 fw-bold text-secondary">{{ stats.closed }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Incidents -->
+    <div class="mb-4">
+        <h3 class="mb-3">New Incidents</h3>
+        {% for incident in new_incidents %}
+            <div class="card mb-2 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">
+                                <a href="{% url 'incident:page' slug=incident.slug %}" class="text-decoration-none">
+                                    {{ incident.title }}
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-1">{{ incident.date|date:"M d, Y" }} by {{ incident.reporter.username }}</p>
+                        </div>
+                        <a href="{% url 'incident:update-status' slug=incident.slug %}" class="btn btn-sm btn-primary">Update Status</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No new incidents.</p>
+        {% endfor %}
+    </div>
+
+    <!-- In Progress Incidents -->
+    <div class="mb-4">
+        <h3 class="mb-3">In Progress</h3>
+        {% for incident in in_progress_incidents %}
+            <div class="card mb-2 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">
+                                <a href="{% url 'incident:page' slug=incident.slug %}" class="text-decoration-none">
+                                    {{ incident.title }}
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-1">{{ incident.date|date:"M d, Y" }} by {{ incident.reporter.username }}</p>
+                            {% if incident.assigned_to %}
+                                <p class="mb-0"><small>Assigned to: {{ incident.assigned_to.username }}</small></p>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'incident:update-status' slug=incident.slug %}" class="btn btn-sm btn-primary">Update Status</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No incidents in progress.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'incident:list' %}" class="btn btn-secondary">View All Incidents</a>
+</section>
+{% endblock %}

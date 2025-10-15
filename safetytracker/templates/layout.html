@@ -27,7 +27,18 @@
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             <li class="nav-item"><a class="nav-link text-primary" href="{% url 'incident:list' %}">Incidents</a></li>
             {% if user.is_authenticated %}
+                {% if user.profile.is_manager %}
+                    <li class="nav-item"><a class="nav-link text-primary" href="{% url 'incident:manager-dashboard' %}">Dashboard</a></li>
+                {% endif %}
                 <li class="nav-item"><a class="nav-link text-primary" href="{% url 'incident:new-incident' %}">New Incident</a></li>
+                <li class="nav-item">
+                  <span class="nav-link text-muted">
+                    {{ user.username }} 
+                    {% if user.profile.is_manager %}
+                      <span class="badge bg-primary">Manager</span>
+                    {% endif %}
+                  </span>
+                </li>
                 <li class="nav-item">
                   <form action="{% url 'users:logout' %}" method="post" class="d-inline">
                       {% csrf_token %}

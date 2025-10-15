@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from django.contrib.auth.models import User
 
 class CreateIncident(forms.ModelForm):
     class Meta:
@@ -10,9 +11,30 @@ class CreateIncident(forms.ModelForm):
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Detailed description of the incident'}),
             'banner': forms.FileInput(attrs={'class': 'form-control'}),
         }
-
         labels = {
             'title': 'Incident Title',
             'body': 'Description',
             'banner': 'Photo (optional)',
         }
+
+class UpdateIncidentStatus(forms.ModelForm):
+    class Meta:
+        model = models.Incident
+        fields = ['status', 'assigned_to']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-select'}),
+            'assigned_to': forms.Select(attrs={'class': 'form-select'}),
+        }
+        labels = {
+            'status': 'Incident Status',
+            'assigned_to': 'Assign to Manager',
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only show users who are managers in the assigned_to dropdown
+        from users.models import Profile
+        manager_profiles = Profile.objects.filter(role='manager')
+        manager_users = [profile.user.id for profile in manager_profiles]
+        self.fields['assigned_to'].queryset = User.objects.filter(id__in=manager_users)
+        self.fields['assigned_to'].required = False

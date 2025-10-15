@@ -18,12 +18,22 @@ class Incident(models.Model):
         __str__(): Returns the incident title as its string representation.
         save(): Override to auto-generate a unique slug from the title before saving.
     """
+
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('in_progress', 'In Progress'),
+        ('resolved', 'Resolved'),
+        ('closed', 'Closed'),
+    ]
+
     title = models.CharField(max_length=75)
     body = models.TextField()
     slug = models.SlugField(unique=True)
     date = models.DateTimeField(auto_now_add=True)
     banner = models.ImageField(default='fallback.jpg', blank=True)
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='reported_incidents')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_incidents')
 
     def __str__(self):
         return self.title
@@ -44,3 +54,6 @@ class Incident(models.Model):
             self.slug = slug
         # calling the parent class's save method to save the model
         super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-date']

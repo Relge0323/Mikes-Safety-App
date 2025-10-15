@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Incident
 from django.contrib.auth.decorators import login_required
 from . import forms
@@ -30,7 +30,7 @@ def incident_page(request, slug):
     Raises:
         Incident.DoesNotExist: If no Incident exists with the given slug.
     """
-    incident = Incident.objects.get(slug=slug)
+    incident = get_object_or_404(Incident, slug=slug)
     return render(request, 'incident_reporter/incident_page.html', {'incident':incident})
 
 @login_required(login_url='/users/login/')

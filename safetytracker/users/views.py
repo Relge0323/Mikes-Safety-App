@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from .forms import StyledUserCreationForm, StyledAuthenticationForm
 
 def register(request):
     """
@@ -19,12 +19,12 @@ def register(request):
                       or a redirect to the incident list after successful registration.
     """
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = StyledUserCreationForm(request.POST)
         if form.is_valid():
             login(request, form.save())
             return redirect("incident:list")
     else:
-        form = UserCreationForm()
+        form = StyledUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
 
 
@@ -44,7 +44,7 @@ def login_view(request):
                       or a redirect after successful login.
     """
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = StyledAuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
             if 'next' in request.POST:
@@ -52,7 +52,7 @@ def login_view(request):
             else:
                 return redirect('incident:list')
     else:
-        form = AuthenticationForm()
+        form = StyledAuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
 

@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Incident
 from django.contrib.auth.decorators import login_required
+from users.decorators import manager_required
+
 from . import forms
 
 def incident_list(request):
@@ -30,7 +32,7 @@ def incident_page(request, slug):
     Raises:
         Incident.DoesNotExist: If no Incident exists with the given slug.
     """
-    incident = Incident.objects.get(slug=slug)
+    incident = get_object_or_404(Incident, slug=slug)
     return render(request, 'incident_reporter/incident_page.html', {'incident':incident})
 
 @login_required(login_url='/users/login/')
@@ -61,3 +63,63 @@ def incident_new(request):
     else:
         form = forms.CreateIncident()
     return render(request, 'incident_reporter/incident_new.html', {'form': form})
+
+@manager_required(redirect_url='/incident_reporter')
+def incident_update_status(request, slug):
+    """
+    Allow managers to update the status of an incident.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        slug (str): The URL-friendly slug identifying the incident.
+    
+    Returns:
+        HttpResponse: Rendered template or redirect after status update.
+    """
+
+    incident = get_object_or_404(Incident, slug=slug)
+
+    if request.method == 'POST':
+        form = forms.UpdateIncidentStatus(request.POST, instance=incident)
+        if form.is_valid():
+            form.save()
+            return redirect('incident:page', slug=slug)
+    else:
+        form = forms.UpdateIncidentStatus(instance=incident)
+
+    return render(request, 'incident_reporter/incident_update_status.html', {'form': form, 'incident': incident})
+
+
+@manager_required(redirect_url='/incident_reporter/')
+def manager_dashboard(request):
+    """
+    Display a dashboard for managers with incident statistics and filters.
+    
+    Args:
+        request (HttpRequest): The HTTP request object.
+    
+    Returns:
+        HttpResponse: Rendered manager dashboard.
+    """
+
+    incidents = Incident.objects.all()
+
+    stats = {
+        'total': incidents.count(),
+        'new': incidents.filter(status='new').count(),
+        'in_progress': incidents.filter(status='in_progress').count(),
+        'resolved': incidents.filter(status='resolved').count(),
+        'closed': incidents.filter(status='closed').count(),
+    }
+
+    # get the recent incidents by status
+    new_incidents = incidents.filter(status='new')[:5]
+    in_progress_incidents = incidents.filter(status='in_progress')[:5]
+
+    context = {
+        'stats': stats,
+        'new_incidents': new_incidents,
+        'in_progress_incidents': in_progress_incidents,
+    }
+
+    return render(request, 'incident_reporter/manager_dashboard.html', context)

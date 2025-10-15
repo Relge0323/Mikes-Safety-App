@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
-# Create your models here.
 class Incident(models.Model):
     """
     Model representing a workplace safety incident.
@@ -16,13 +16,44 @@ class Incident(models.Model):
 
     Methods:
         __str__(): Returns the incident title as its string representation.
+        save(): Override to auto-generate a unique slug from the title before saving.
     """
+
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('in_progress', 'In Progress'),
+        ('resolved', 'Resolved'),
+        ('closed', 'Closed'),
+    ]
+
     title = models.CharField(max_length=75)
     body = models.TextField()
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     date = models.DateTimeField(auto_now_add=True)
     banner = models.ImageField(default='fallback.jpg', blank=True)
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='reported_incidents')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_incidents')
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        # is the slug field empty?
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+
+            # make sure the slug is unique in the database
+            while Incident.objects.filter(slug=slug).exists():
+                # if the slug exists, add a counter at the end
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+
+            self.slug = slug
+        # calling the parent class's save method to save the model
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-date']

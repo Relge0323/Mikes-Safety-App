@@ -50,7 +50,46 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="card text-center shadow-sm border-primary">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Last 7 Days</h6>
+                    <p class="display-6 fw-bold text-primary">{{ recent_incidents }}</p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- My Assigned Incidents -->
+    {% if my_assigned %}
+    <div class="mb-4">
+        <h3 class="mb-3">My Assigned Incidents ({{ my_assigned.count }})</h3>
+        {% for incident in my_assigned %}
+            <div class="card mb-2 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">
+                                <a href="{% url 'incident:page' slug=incident.slug %}" class="text-decoration-none">
+                                    {{ incident.title }}
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-1">{{ incident.date|date:"M d, Y" }} by {{ incident.reporter.username }}</p>
+                            <span class="badge
+                                {% if incident.status == 'new' %}bg-warning text-dark
+                                {% elif incident.status == 'in_progress' %}bg-info text-dark
+                                {% elif incident.status == 'resolved' %}bg-success
+                                {% endif %}">
+                                {{ incident.get_status_display }}
+                            </span>
+                        </div>
+                        <a href="{% url 'incident:update-status' slug=incident.slug %}" class="btn btn-sm btn-primary">Update</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- New Incidents -->
     <div class="mb-4">
@@ -101,6 +140,25 @@
         {% empty %}
             <p class="text-muted">No incidents in progress.</p>
         {% endfor %}
+    </div>
+
+    <!-- Top Reporters -->
+    <div class="mb-4">
+        <h3 class="mb-3">Top Reporters</h3>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for reporter in top_reporters %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ reporter.reporter__username }}
+                            <span class="badge bg-primary rounded-pill">{{ reporter.count }}</span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No incidents reported yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
 
     <a href="{% url 'incident:list' %}" class="btn btn-secondary">View All Incidents</a>

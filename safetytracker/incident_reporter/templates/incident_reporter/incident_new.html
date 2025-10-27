@@ -1,12 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    New Incident
+    Report Incident
 {% endblock %}
 
 {% block content %}
 <section>
-    <h1 class="mb-4">Report a New Incident</h1>
+    <h1 class="mb-2">Report a Safety Incident</h1>
+    <p class="text-muted mb-4">Use this form to quickly report any workplace safety incidents. A manager will review your report.</p>
+    
+    <!-- Display success/error messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
     <form action="{% url 'incident:new-incident' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
@@ -21,8 +33,7 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        <button class="btn btn-primary" type="submit">Add Incident</button>
-        <a href="{% url 'incident:list' %}" class="btn btn-secondary ms-2">Cancel</a>
+        <button class="btn btn-primary btn-lg" type="submit">Submit Report</button>
     </form>
 </section>
 {% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Notifications
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Notifications</h1>
+        <div>
+            <span class="badge bg-primary me-2">{{ unread_count }} unread</span>
+            {% if unread_count > 0 %}
+                <form action="{% url 'incident:mark-all-read' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-secondary">Mark All Read</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    {% for notification in notifications %}
+        <div class="card mb-2 shadow-sm {% if not notification.is_read %}border-primary{% endif %}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge 
+                                {% if notification.notification_type == 'new_incident' %}bg-warning text-dark
+                                {% elif notification.notification_type == 'status_change' %}bg-info
+                                {% elif notification.notification_type == 'assigned' %}bg-primary
+                                {% endif %} me-2">
+                                {{ notification.get_notification_type_display }}
+                            </span>
+                            {% if not notification.is_read %}
+                                <span class="badge bg-danger">New</span>
+                            {% endif %}
+                        </div>
+                        <p class="mb-1">{{ notification.message }}</p>
+                        <small class="text-muted">{{ notification.created_at|date:"M d, Y - g:i A" }}</small>
+                    </div>
+                    <a href="{% url 'incident:mark-notification-read' notification_id=notification.id %}" 
+                       class="btn btn-sm btn-primary">View Incident</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            No notifications yet.
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}

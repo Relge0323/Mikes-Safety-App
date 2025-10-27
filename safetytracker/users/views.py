@@ -8,21 +8,26 @@ def register(request):
 
     If the request is POST, the submitted UserCreationForm is validated and a new
     user is created. Upon successful registration, the user is automatically logged in
-    and redirected to the incident list. For GET requests, an empty registration form
-    is displayed.
+    and redirected to the appropriate page based on their role.
 
     Args:
         request (HttpRequest): The HTTP request object.
 
     Returns:
         HttpResponse: Rendered 'users/register.html' template with the registration form,
-                      or a redirect to the incident list after successful registration.
+                      or a redirect after successful registration.
     """
     if request.method == "POST":
         form = StyledUserCreationForm(request.POST)
         if form.is_valid():
-            login(request, form.save())
-            return redirect("incident:list")
+            user = form.save()
+            login(request, user)
+            
+            # Redirect based on role
+            if user.profile.is_manager():
+                return redirect("incident:manager-dashboard")
+            else:
+                return redirect("incident:new-incident")
     else:
         form = StyledUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
@@ -33,8 +38,7 @@ def login_view(request):
     Handle user login.
 
     If the request is POST, the submitted AuthenticationForm is validated. On successful
-    authentication, the user is logged in and redirected to the page specified in 'next'
-    (if provided) or to the incident list. For GET requests, an empty login form is displayed.
+    authentication, the user is logged in and redirected based on their role.
 
     Args:
         request (HttpRequest): The HTTP request object.
@@ -46,11 +50,18 @@ def login_view(request):
     if request.method == 'POST':
         form = StyledAuthenticationForm(data=request.POST)
         if form.is_valid():
-            login(request, form.get_user())
+            user = form.get_user()
+            login(request, user)
+            
+            # Check if there's a 'next' parameter
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
+            
+            # Redirect based on role
+            if user.profile.is_manager():
+                return redirect('incident:manager-dashboard')
             else:
-                return redirect('incident:list')
+                return redirect('incident:new-incident')
     else:
         form = StyledAuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
@@ -60,15 +71,14 @@ def logout_view(request):
     """
     Log out the currently authenticated user.
 
-    Only responds to POST requests. After logging out, the user is redirected to the
-    incident list page.
+    Only responds to POST requests. After logging out, the user is redirected to login.
 
     Args:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        HttpResponse: Redirect to the incident list after logout.
+        HttpResponse: Redirect to the login page after logout.
     """
     if request.method == 'POST':
         logout(request)
-        return redirect('incident:list')
+        return redirect('users:login')

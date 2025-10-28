@@ -33,6 +33,7 @@ def incident_list(request):
         
         if search:
             incidents = incidents.filter(
+                # find all incidents where the title ** OR ** the body cotains the search term
                 Q(title__icontains=search) | Q(body__icontains=search)
             )
         

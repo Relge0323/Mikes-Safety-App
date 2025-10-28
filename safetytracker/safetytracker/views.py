@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from incident_reporter.models import Incident
+from django.shortcuts import redirect
 
 def home_view(request):
     """
@@ -7,6 +6,7 @@ def home_view(request):
     - Not authenticated: redirect to login
     - Authenticated: redirect to appropriate page based on role
     """
+    # If user is not logged in, bring them to login page
     if not request.user.is_authenticated:
         return redirect('users:login')
     

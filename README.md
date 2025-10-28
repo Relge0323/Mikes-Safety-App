@@ -27,6 +27,17 @@ https://www.youtube.com/watch?v=b0CgA_Ap_Mc&list=PLzMcBGfZo4-kQkZp-j9PNyKq7Yw5VY
 (ModelAdmin List Filters)
 https://docs.djangoproject.com/en/5.2/ref/contrib/admin/filters/#:~:text=ModelAdmin%20List%20Filters
 
+Context Processors, Using RequestContext
+https://docs.djangoproject.com/en/5.2/ref/templates/api/#django.template.RequestContext
+
+Role Based Permissions and Authentication
+https://www.youtube.com/watch?v=tUqUdu0Sjyc&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=14
+https://www.youtube.com/watch?v=eBsc65jTKvw&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=15
+
+Signals
+https://docs.djangoproject.com/en/5.2/topics/signals/
+https://www.youtube.com/watch?v=8p4M-7VXhAU
+
 ----------BOOTSTRAP RELATED----------
 getbootstrap.com/docs/5.3/getting-started/introduction
 jsDelivr Bootstrap 5.3.2 CDN (https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css)

@@ -8,6 +8,14 @@ superuser = mike, pokergod
 ************************need to pip install pillow***********************************
 
 # Sources
+-------------PYTHON RELATED-----------------
+Decorators
+https://www.geeksforgeeks.org/python/decorators-in-python/
+https://www.w3schools.com/python/python_decorators.asp
+https://realpython.com/primer-on-python-decorators/
+https://www.youtube.com/watch?v=nVdF7QT-Ggg
+
+
 --------------DJANGO RELATED----------------
 Django Unleashed Textbook
 https://docs.djangoproject.com/en/5.2/

@@ -12,10 +12,10 @@ def create_notification(user, incident, message, notification_type):
         notification_type (str): Type of notification.
     """
     Notification.objects.create(
-        user=user,
-        incident=incident,
-        message=message,
-        notification_type=notification_type
+        user = user,
+        incident = incident,
+        message = message,
+        notification_type = notification_type
     )
 
 def notify_managers_new_incident(incident):
@@ -29,10 +29,10 @@ def notify_managers_new_incident(incident):
     
     for manager_profile in managers:
         create_notification(
-            user=manager_profile.user,
-            incident=incident,
-            message=f"New incident reported: {incident.title}",
-            notification_type='new_incident'
+            user = manager_profile.user,
+            incident = incident,
+            message = f"New incident reported: {incident.title}",
+            notification_type = 'new_incident'
         )
 
 def notify_reporter_status_change(incident, old_status, new_status):
@@ -46,10 +46,10 @@ def notify_reporter_status_change(incident, old_status, new_status):
     """
     if incident.reporter:
         create_notification(
-            user=incident.reporter,
-            incident=incident,
-            message=f"Your incident '{incident.title}' status changed from {incident.get_status_display()} to {dict(incident.STATUS_CHOICES)[new_status]}",
-            notification_type='status_change'
+            user = incident.reporter,
+            incident = incident,
+            message = f"Your incident '{incident.title}' status changed from {incident.get_status_display()} to {dict(incident.STATUS_CHOICES)[new_status]}",
+            notification_type = 'status_change'
         )
 
 def notify_manager_assignment(incident, manager):
@@ -61,8 +61,8 @@ def notify_manager_assignment(incident, manager):
         manager (User): The manager being assigned.
     """
     create_notification(
-        user=manager,
-        incident=incident,
-        message=f"You have been assigned to incident: {incident.title}",
-        notification_type='assigned'
+        user = manager,
+        incident = incident,
+        message = f"You have been assigned to incident: {incident.title}",
+        notification_type = 'assigned'
     )

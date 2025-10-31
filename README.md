@@ -49,5 +49,6 @@ https://www.youtube.com/watch?v=8p4M-7VXhAU
 ----------BOOTSTRAP RELATED----------
 getbootstrap.com/docs/5.3/getting-started/introduction
 jsDelivr Bootstrap 5.3.2 CDN (https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css)
+https://www.youtube.com/playlist?list=PL4cUxeGkcC9joIM91nLzd_qaH_AimmdAR
 https://www.youtube.com/watch?v=eow125xV5-c (bootstrap tutorial video)
 https://www.w3schools.com/bootstrap5/index.php

@@ -52,3 +52,10 @@ jsDelivr Bootstrap 5.3.2 CDN (https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9joIM91nLzd_qaH_AimmdAR
 https://www.youtube.com/watch?v=eow125xV5-c (bootstrap tutorial video)
 https://www.w3schools.com/bootstrap5/index.php
+
+
+---------CSS RELATED----------------
+this show the priority or "cascasding" of your code and what takes priority. Very Cool
+https://specificity.keegan.st/
+
+https://www.youtube.com/playlist?list=PL0Zuz27SZ-6Mx9fd9elt80G1bPcySmWit (28 videos worth of tutorials!)

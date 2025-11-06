@@ -12,12 +12,6 @@ from django.contrib import messages
 def incident_list(request):
     """
     Display a list of all incidents with optional filtering and search.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: Rendered 'incident_list.html' with filtered incidents.
     """
     incidents = Incident.objects.all().order_by('-date')
     filter_form = forms.IncidentFilterForm(request.GET)
@@ -65,16 +59,6 @@ def incident_list(request):
 def incident_page(request, slug):
     """
     Display the details of a single incident identified by its slug.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-        slug (str): The URL-friendly slug identifying the incident.
-
-    Returns:
-        HttpResponse: Rendered 'incident_page.html' template with the incident data.
-
-    Raises:
-        Http404: If no Incident exists with the given slug.
     """
     incident = get_object_or_404(Incident, slug=slug)
     return render(request, 'incident_reporter/incident_page.html', {'incident':incident})
@@ -88,13 +72,6 @@ def incident_new(request):
     the form data is validated and a new Incident is created and saved
     with the current user as the reporter. On success, shows a success
     message and presents a fresh form.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: Rendered 'incident_new.html' template with the
-                      incident creation form.
     """
     if request.method == 'POST':
         form = forms.CreateIncident(request.POST, request.FILES)
@@ -119,13 +96,6 @@ def incident_new(request):
 def incident_update_status(request, slug):
     """
     Allow managers to update the status of an incident.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-        slug (str): The URL-friendly slug identifying the incident.
-    
-    Returns:
-        HttpResponse: Rendered template or redirect after status update.
     """
     incident = get_object_or_404(Incident, slug=slug)
     old_status = incident.status
@@ -158,12 +128,6 @@ def incident_update_status(request, slug):
 def manager_dashboard(request):
     """
     Display a dashboard for managers with incident statistics and filters.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-    
-    Returns:
-        HttpResponse: Rendered manager dashboard.
     """
     incidents = Incident.objects.all()
     
@@ -209,12 +173,6 @@ def manager_dashboard(request):
 def my_incidents(request):
     """
     Display incidents reported by the current user.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-    
-    Returns:
-        HttpResponse: Rendered template with user's incidents.
     """
     incidents = Incident.objects.filter(reporter=request.user).order_by('-date')
     
@@ -229,12 +187,6 @@ def my_incidents(request):
 def notifications_list(request):
     """
     Display all notifications for the current user.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-    
-    Returns:
-        HttpResponse: Rendered notifications list.
     """
     notifications = Notification.objects.filter(user=request.user)
     unread_count = notifications.filter(is_read=False).count()
@@ -250,13 +202,6 @@ def notifications_list(request):
 def mark_notification_read(request, notification_id):
     """
     Mark a notification as read and redirect to the incident page.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-        notification_id (int): The ID of the notification to mark as read.
-    
-    Returns:
-        HttpResponse: Redirect to incident page.
     """
     notification = get_object_or_404(Notification, id=notification_id, user=request.user)
     notification.is_read = True
@@ -268,12 +213,6 @@ def mark_notification_read(request, notification_id):
 def mark_all_notifications_read(request):
     """
     Mark all notifications for the current user as read.
-    
-    Args:
-        request (HttpRequest): The HTTP request object.
-    
-    Returns:
-        HttpResponse: Redirect to notifications page.
     """
     if request.method == 'POST':
         Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)

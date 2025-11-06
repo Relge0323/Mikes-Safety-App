@@ -9,13 +9,6 @@ def register(request):
     If the request is POST, the submitted UserCreationForm is validated and a new
     user is created. Upon successful registration, the user is automatically logged in
     and redirected to the appropriate page based on their role.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: Rendered 'users/register.html' template with the registration form,
-                      or a redirect after successful registration.
     """
     if request.method == "POST":
         form = StyledUserCreationForm(request.POST)
@@ -39,13 +32,6 @@ def login_view(request):
 
     If the request is POST, the submitted AuthenticationForm is validated. On successful
     authentication, the user is logged in and redirected based on their role.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: Rendered 'users/login.html' template with the login form,
-                      or a redirect after successful login.
     """
     if request.method == 'POST':
         form = StyledAuthenticationForm(data=request.POST)
@@ -72,12 +58,6 @@ def logout_view(request):
     Log out the currently authenticated user.
 
     Only responds to POST requests. After logging out, the user is redirected to login.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: Redirect to the login page after logout.
     """
     if request.method == 'POST':
         logout(request)

@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 def manager_required(function=None, redirect_url='/'):
     """
@@ -20,9 +20,8 @@ def manager_required(function=None, redirect_url='/'):
 def employee_or_manager_required(function=None, redirect_url='/users/login/'):
     """
     Decorator for views that checks if the user is logged in.
-    Just an alias for login_required, but keeping naming consistent.
+    Just an alias for login_required, but keeps naming consistent.
     """
-    from django.contrib.auth.decorators import login_required
     actual_decorator = login_required(login_url=redirect_url)
 
     if function:

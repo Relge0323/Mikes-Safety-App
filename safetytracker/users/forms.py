@@ -10,6 +10,7 @@ class StyledUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # bootstrap class for styling on forms (rounded borders, spacing)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 

@@ -5,20 +5,6 @@ from django.utils.text import slugify
 class Incident(models.Model):
     """
     Model representing a workplace safety incident.
-
-    Attributes:
-        title (str): Short title of the incident (max 75 characters).
-        body (str): Detailed description of the incident.
-        slug (str): URL-friendly unique identifier for the incident (auto-generated).
-        date (datetime): Timestamp of when the incident was created (auto-populated).
-        banner (ImageField): Optional image related to the incident. Defaults to 'fallback.jpg'.
-        reporter (User): Reference to the User who reported the incident. Can be null or blank.
-        status (str): Current status of the incident (new, in_progress, resolved, closed).
-        assigned_to (User): Manager assigned to handle this incident (optional).
-
-    Methods:
-        __str__(): Returns the incident title as its string representation.
-        save(): Overridden to auto-generate unique slug from title before saving.
     """
     
     STATUS_CHOICES = [
@@ -58,14 +44,6 @@ class Incident(models.Model):
 class Notification(models.Model):
     """
     Model representing a notification for users.
-    
-    Attributes:
-        user (User): The user who should receive this notification.
-        incident (Incident): The incident this notification is about.
-        message (str): The notification message.
-        notification_type (str): Type of notification (new_incident, status_change, assigned).
-        is_read (bool): Whether the notification has been read.
-        created_at (datetime): When the notification was created.
     """
     
     NOTIFICATION_TYPES = [

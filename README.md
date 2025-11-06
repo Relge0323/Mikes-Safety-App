@@ -22,7 +22,6 @@ https://docs.djangoproject.com/en/5.2/
 https://docs.djangoproject.com/en/5.2/topics/db/models/
 https://docs.djangoproject.com/en/5.2/topics/templates/
 https://www.w3schools.com/django/index.php
-chatgpt for creating sample data for tables
 
 (django models.py)
 https://www.youtube.com/watch?v=rI95wyHD_6k
@@ -37,6 +36,7 @@ https://docs.djangoproject.com/en/5.2/ref/contrib/admin/filters/#:~:text=ModelAd
 
 Context Processors, Using RequestContext
 https://docs.djangoproject.com/en/5.2/ref/templates/api/#django.template.RequestContext
+https://dev.to/sarahhudaib/context-processors-in-django-15h2
 
 Role Based Permissions and Authentication
 https://www.youtube.com/watch?v=tUqUdu0Sjyc&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=14

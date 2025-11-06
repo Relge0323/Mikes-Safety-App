@@ -4,14 +4,6 @@ from django.contrib.auth.models import User
 class Notification(models.Model):
     """
     Model representing a notification for users.
-    
-    Attributes:
-        user (User): The user who should receive this notification.
-        incident (Incident): The incident this notification is about.
-        message (str): The notification message.
-        notification_type (str): Type of notification (new_incident, status_change, assigned).
-        is_read (bool): Whether the notification has been read.
-        created_at (datetime): When the notification was created.
     """
     
     NOTIFICATION_TYPES = [

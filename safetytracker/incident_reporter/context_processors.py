@@ -1,5 +1,8 @@
 from .models import Notification
 
+# this file gets added into the TEMPLATES list in settings.py
+
+
 def unread_notifications(request):
     """
     Add unread notification count to all templates.

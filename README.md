@@ -53,6 +53,9 @@ https://www.youtube.com/playlist?list=PL4cUxeGkcC9joIM91nLzd_qaH_AimmdAR
 https://www.youtube.com/watch?v=eow125xV5-c (bootstrap tutorial video)
 https://www.w3schools.com/bootstrap5/index.php
 
+another really good resource for seeing bootstrap get implemented through video
+https://www.youtube.com/watch?v=9aEsZxaOwRs&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=3
+
 
 ---------CSS RELATED----------------
 this show the priority or "cascasding" of your code and what takes priority. Very Cool

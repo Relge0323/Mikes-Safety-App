@@ -33,6 +33,7 @@ https://www.youtube.com/watch?v=b0CgA_Ap_Mc&list=PLzMcBGfZo4-kQkZp-j9PNyKq7Yw5VY
 
 (ModelAdmin List Filters)
 https://docs.djangoproject.com/en/5.2/ref/contrib/admin/filters/#:~:text=ModelAdmin%20List%20Filters
+https://www.youtube.com/watch?v=PD3YnPSHC-c&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=7
 
 Context Processors, Using RequestContext
 https://docs.djangoproject.com/en/5.2/ref/templates/api/#django.template.RequestContext

@@ -43,6 +43,9 @@ Role Based Permissions and Authentication
 https://www.youtube.com/watch?v=tUqUdu0Sjyc&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=14
 https://www.youtube.com/watch?v=eBsc65jTKvw&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=15
 
+Widgets
+https://docs.djangoproject.com/en/5.2/ref/forms/widgets/
+
 Signals
 https://docs.djangoproject.com/en/5.2/topics/signals/
 https://www.youtube.com/watch?v=8p4M-7VXhAU

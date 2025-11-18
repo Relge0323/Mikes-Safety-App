@@ -45,7 +45,8 @@
                         </a>
                     </li>
                 {% else %}
-                    <!-- Employee Navigation -->
+                    <!-- Employee Navigation (Simple) -->
+                    <li class="nav-item"><a class="nav-link text-primary" href="{% url 'incident:my-incidents' %}">My Incidents</a></li>
                     <li class="nav-item"><a class="nav-link text-primary" href="{% url 'incident:new-incident' %}">Report Incident</a></li>
                     <li class="nav-item">
                         <a class="nav-link text-primary position-relative" href="{% url 'incident:notifications' %}">
